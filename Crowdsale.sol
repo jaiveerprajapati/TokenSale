@@ -30,7 +30,7 @@ contract Crowdsale is Pausable, Ownable {
     error ExceedICOSupply();
 
     // Token contract
-    IERC20 public swft;
+    IERC20 public jvr;
     IERC20 public busd;
     // treasury that will receive the BUSD
     address public treasury;
@@ -67,12 +67,12 @@ contract Crowdsale is Pausable, Ownable {
     );
 
     constructor(
-        address _swft,
+        address _jvr,
         address _busd,
         address _treasury,
         address _owner
     ) {
-        swft = IERC20(_swft);
+        jvr = IERC20(_jvr);
         busd = IERC20(_busd);
 
         treasury = _treasury;
@@ -206,7 +206,7 @@ contract Crowdsale is Pausable, Ownable {
         totalTokensSold += amount;
 
         IERC20(busd).safeTransferFrom(msg.sender, treasury, busdNeeded);
-        IERC20(swft).safeTransferFrom(treasury, msg.sender, amount);
+        IERC20(jvr).safeTransferFrom(treasury, msg.sender, amount);
 
         emit Purchase(msg.sender, amount, busdNeeded);
     }
@@ -225,7 +225,7 @@ contract Crowdsale is Pausable, Ownable {
 
         totalBUSDRaised -= busdToReturn;
 
-        IERC20(swft).safeTransferFrom(msg.sender, treasury, tokensToReturn);
+        IERC20(jvr).safeTransferFrom(msg.sender, treasury, tokensToReturn);
         IERC20(busd).safeTransferFrom(treasury, msg.sender, busdToReturn);
 
         emit Refund(msg.sender, tokensToReturn, busdToReturn);
